@@ -4,6 +4,8 @@
 
 using namespace std;
 
+/* DFS, MODUL */
+
 void changeLocation(int& cur_row, int& cur_col, int direction){
     if(direction == 0)
         ++cur_col;
