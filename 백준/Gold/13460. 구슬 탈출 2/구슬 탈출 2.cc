@@ -4,6 +4,8 @@
 
 using namespace std;
 
+/* BFS */
+
 const int dr[] = {1, -1, 0, 0};
 const int dc[] = {0, 0, 1, -1};
 
