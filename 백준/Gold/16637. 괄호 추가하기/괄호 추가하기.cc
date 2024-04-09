@@ -1,52 +1,55 @@
-#include<iostream>
-#include<algorithm>
-#include<climits>
-#include<string>
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <climits>
+
 using namespace std;
 
-int n, max_ans;
-string str;
+/* DFS */
 
-int cal(int a, int b, char oper)
+int N, max_value;
+string formula;
+
+int calculation(int a, int b, char op)
 {
-	int result = a;
-	switch (oper)
-	{
-	case '+': result += b; break;
-	case '*': result *= b; break;
-	case '-': result -= b; break;
-	}
-	return result;
+    int result = a;
+    if(op == '+')
+        result += b;
+    else if(op == '-')
+        result -= b;
+    else if(op == '*')
+        result *= b;
+    return result;
 }
 
-void recur(int idx, int cur)
+void DFS(int index, int current_value)
 {
-	// 1. 종료 조건
-	if (idx > n - 1)
-	{
-		max_ans = max(max_ans, cur);
-		return;
-	}
-	char oper = (idx == 0) ? '+' : str[idx - 1];
+    if(index > N - 1){
+        max_value = max(max_value, current_value);
+        return;
+    }
+    // 이전 Operater설정
+    char op = (index == 0) ? '+' : formula[index-1];
 
-	// 2. 괄호로 묶는다 = 이전 + 괄호 계산
-	if (idx + 2 < n)
-	{
-		int bracket = cal(str[idx] - '0', str[idx + 2] - '0', str[idx + 1]);
-		recur(idx + 4, cal(cur, bracket, oper));
-	}
-	// 3. 안 묶는다 = 이전 + 다음
-	recur(idx + 2, cal(cur, str[idx] - '0', oper));
+    //괄호O
+    if(index + 2 < N){
+        int bound = calculation(formula[index] - '0', formula[index+2] - '0', formula[index+1]);
+        DFS(index+4, calculation(current_value, bound, op));
+    }
+    //괄호X
+    DFS(index+2, calculation(current_value, formula[index] - '0', op));
 }
 
-int main()
+int main(void)
 {
-	//freopen("input.txt", "r", stdin);
-	ios_base::sync_with_stdio(0); cin.tie(0);
-	cin >> n >> str;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
 
-	max_ans = INT_MIN;
-	recur(0, 0);
-	cout << max_ans;
-	return 0;
+    cin >> N;
+    cin >> formula;
+    max_value = INT_MIN;
+    DFS(0, 0);
+    cout << max_value << "\n";
+
+    return 0;
 }
