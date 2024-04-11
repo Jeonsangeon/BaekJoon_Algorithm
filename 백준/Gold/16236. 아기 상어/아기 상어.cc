@@ -4,6 +4,8 @@
 
 using namespace std;
 
+/* BFS */
+
 #define MAX_FIELD 20
 
 int N;
