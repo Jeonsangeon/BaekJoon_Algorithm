@@ -3,8 +3,8 @@
 
 using namespace std;
 
-int field[100002] = {0};  // 배열 범위를 100001까지 확장
-bool visit[100002];       // 방문 배열도 100001까지 확장
+int field[100001] = {0};
+bool visit[100001];
 
 int dx[] = {-1, 1};
 int n, k;
@@ -24,20 +24,18 @@ int main(void){
             cout << field[cur] << "\n";
             return 0;
         }
-        
-        for(int dir = 0; dir < 2; ++dir){
-            int nx = cur + dx[dir];
-            if(nx < 0 || nx > 100001) // 경계 조건을 100001로 변경
+        for(int dir = 0; dir < 3; ++dir){
+            int nx;
+            if(dir == 2){
+                nx = 2 * cur;
+            }
+            else{
+                nx = cur + dx[dir];
+            }
+            if(nx < 0 || nx > 100001)
                 continue;
             if(visit[nx])
                 continue;
-            field[nx] = field[cur] + 1;
-            Q.push(nx);
-            visit[nx] = 1;
-        }
-        
-        int nx = 2 * cur;
-        if(nx >= 0 && nx <= 100001 && !visit[nx]){  // 경계 조건을 100001로 변경
             field[nx] = field[cur] + 1;
             Q.push(nx);
             visit[nx] = 1;
