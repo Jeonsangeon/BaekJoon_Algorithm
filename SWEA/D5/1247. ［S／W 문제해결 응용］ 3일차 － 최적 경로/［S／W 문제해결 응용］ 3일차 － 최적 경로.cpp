@@ -32,7 +32,11 @@ int main(int argc, char** argv)
             dist += (abs(home.X-customer[0].X) + abs(home.Y-customer[0].Y));
             for(int i = 1; i < N; ++i){
                 dist += (abs(customer[i].X-customer[i-1].X) + abs(customer[i].Y-customer[i-1].Y));
+                if(min_dist < dist)
+                    break;
             }
+            if(min_dist < dist)
+                continue;
             dist += (abs(company.X-customer[N-1].X) + abs(company.Y-customer[N-1].Y));
             min_dist = min(min_dist, dist);
         } while(next_permutation(customer, customer + N));
