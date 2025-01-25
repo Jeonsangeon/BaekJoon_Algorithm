@@ -1,14 +1,11 @@
 SELECT
-    DISTINCT(CART_ID)
+    CART_ID
 FROM
     CART_PRODUCTS
 WHERE
-    NAME = 'Yogurt'
-    AND CART_ID IN (SELECT
-                        DISTINCT(CART_ID)
-                    FROM
-                        CART_PRODUCTS
-                    WHERE
-                        NAME = 'Milk')
+    NAME IN ('Milk', 'Yogurt')
+GROUP BY
+    CART_ID
+HAVING COUNT(DISTINCT(NAME)) >= 2
 ORDER BY
-    CART_ID;
+    CART_ID
