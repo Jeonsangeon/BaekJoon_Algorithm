@@ -1,56 +1,31 @@
 #include <iostream>
-#include <array>
 #include <algorithm>
-
-#define MAX_N 15
-
 using namespace std;
 
+const int MAX_N = 15;
 int N, ret = 0;
-array<int, 2> day[MAX_N];
-bool check[MAX_N];
+int day[MAX_N][2];
 
-int calculatePrice() {
-    int price = 0;
-    for(int i = 0; i < N; ++i) {
-        if(check[i])
-            price += day[i][1];
-    }
-    return price;
-}
-
-void backtracking(int d) {
-    if(d >= N) {
-        ret = max(ret, calculatePrice());
+void solve(int idx, int currentProfit) {
+    if (idx >= N) {
+        ret = max(ret, currentProfit);
         return;
     }
-    for(int i = d; i < N; ++i) {
-        if(i + day[i][0] <= N) {
-            check[i] = true;
-            backtracking(i+day[i][0]);
-            check[i] = false;
-        } else {
-            backtracking(i+1);
-        }
-    }
+    solve(idx + 1, currentProfit);
+    if (idx + day[idx][0] <= N)
+        solve(idx + day[idx][0], currentProfit + day[idx][1]);
 }
 
-int main(void) {
-    ios::sync_with_stdio(0); cin.tie(0);
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
     cin >> N;
-    for(int i = 0; i < N; ++i)
+    for (int i = 0; i < N; ++i)
         cin >> day[i][0] >> day[i][1];
-    
-    for(int i = 0; i < N; ++i) {
-        if(i + day[i][0] <= N) {
-            check[i] = true;
-            backtracking(i+day[i][0]);
-            check[i] = false;
-        }
-    }
 
+    solve(0, 0);
     cout << ret << "\n";
-
+    
     return 0;
 }
