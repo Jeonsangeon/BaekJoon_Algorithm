@@ -18,31 +18,29 @@ bool check() {
             if (ladder[j][cur_line]) ++cur_line;
             else if (cur_line > 1 && ladder[j][cur_line - 1]) --cur_line;
         }
-        if (cur_line != i)
-            return false;
+        if (cur_line != i) return false;
     }
     return true;
 }
 
-bool dfs(int max_depth, int depth) {
-    if (max_depth == depth) {
+bool dfs(int max_depth, int depth, int row, int col) {
+    if (depth == max_depth) {
         if (check()) {
-            ret = min(ret, depth);
+            ret = depth;
             return true;
         }
         return false;
     }
 
-    bool flag = false;
-    for (int j = 1; j <= H; ++j) {
-        for (int i = 1; i < N; ++i) {
+    for (int j = row; j <= H; ++j) {
+        for (int i = (j == row ? col : 1); i < N; ++i) {
             if (ladder[j][i]) continue;
             if (i > 1 && ladder[j][i - 1]) continue;
             if (i + 1 < N && ladder[j][i + 1]) continue;
+
             ladder[j][i] = true;
-            flag = dfs(max_depth, depth + 1);
+            if (dfs(max_depth, depth + 1, j, i)) return true;
             ladder[j][i] = false;
-            if (flag) return true;
         }
     }
 
@@ -62,16 +60,12 @@ int main(void) {
 
     bool flag = false;
     for (int i = 0; i <= 3; ++i) {
-        if (dfs(i, 0)) {
+        if (dfs(i, 0, 1, 1)) {
             flag = true;
             break;
         }
     }
 
-    if (flag)
-        cout << ret << "\n";
-    else
-        cout << -1 << "\n";
-
+    cout << (flag ? ret : -1) << "\n";
     return 0;
 }
