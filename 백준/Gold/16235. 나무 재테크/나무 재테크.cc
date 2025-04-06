@@ -2,13 +2,15 @@
 #include <vector>
 #include <deque>
 
+#define MAX_N 11
+
 using namespace std;
 
 int N, M, K;
-int A[11][11]; // 겨울 양분 추가
-int field[11][11]; // 현재 양분
-deque<int> trees[11][11]; // 각 칸에 있는 나무들의 나이
-vector<int> dead[11][11]; // 여름용 죽은 나무
+int A[MAX_N][MAX_N];
+int field[MAX_N][MAX_N];
+deque<int> trees[MAX_N][MAX_N];
+vector<int> dead[MAX_N][MAX_N];
 
 const int dx[8] = {-1,-1,-1,0,0,1,1,1};
 const int dy[8] = {-1,0,1,-1,1,-1,0,1};
@@ -52,7 +54,7 @@ void fall() {
                         int ni = i + dx[d];
                         int nj = j + dy[d];
                         if (validate(ni, nj)) {
-                            trees[ni][nj].push_front(1); // 새로운 나무는 가장 앞에!
+                            trees[ni][nj].push_front(1);
                         }
                     }
                 }
@@ -67,8 +69,8 @@ void winter() {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
     cin >> N >> M >> K;
     for (int i = 1; i <= N; ++i)
